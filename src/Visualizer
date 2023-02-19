@@ -1,0 +1,45 @@
+import pyglet
+
+
+# Define the dimensions of the maze
+maze_width = 10
+maze_height = 10
+cell_size = 20
+
+# Define the window size
+window_width = maze_width * cell_size
+window_height = maze_height * cell_size
+window = pyglet.window.Window(width=window_width, height=window_height)
+
+# Define the maze
+maze = [
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 1, 1, 0, 1, 1, 1, 0, 1],
+    [1, 0, 1, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 1, 0, 1, 1, 1, 1, 0, 1],
+    [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+    [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+    [1, 0, 1, 1, 1, 1, 1, 1, 0, 1],
+    [1, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+]
+
+# Define a function for drawing the maze
+def draw_maze():
+    for row in range(maze_height):
+        for col in range(maze_width):
+            if maze[row][col] == 1:
+                # Draw a wall
+                x1 = col * cell_size
+                y1 = row * cell_size
+                x2 = x1 + cell_size
+                y2 = y1 + cell_size
+                pyglet.graphics.draw(4, pyglet.gl.GL_QUADS, ('v2i', (x1, y1, x2, y1, x2, y2, x1, y2)))
+
+@window.event
+def on_draw():
+    window.clear()
+    draw_maze()
+
+pyglet.app.run()
