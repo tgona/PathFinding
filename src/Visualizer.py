@@ -1,7 +1,6 @@
 import pygame
 from MazeMaker import *
-from tkinter import *
-from tkinter import messagebox
+
 
 # Initialize Pygame
 pygame.init()
@@ -26,6 +25,7 @@ wall_color = (0, 0, 0)
 passage_color = (255, 255, 255)
 point_color = (255, 0, 0)
 goal_color = (0, 255, 0)
+path_color = (255, 255, 0)
 
 # Define the starting position of the point
 point_pos = [1, 1]
@@ -35,6 +35,9 @@ goal_pos = [len(maze)-2, len(maze)-2]
 
 # Define the clock to control the frame rate
 clock = pygame.time.Clock()
+
+# Define a set to keep track of tiles that have been traversed on the path
+path_tiles = set()
 
 game_over = False
 complete = False
@@ -60,6 +63,9 @@ while not game_over:
                 pygame.quit()
                 quit()
 
+            # Add the current point position to the path
+            path_tiles.add(tuple(point_pos))
+
     # Clear the screen
     screen.fill((255, 255, 255))
 
@@ -68,6 +74,8 @@ while not game_over:
         for x in range(len(maze[0])):
             if maze[y][x] == 0:
                 pygame.draw.rect(screen, wall_color, (x*cell_size, y*cell_size, cell_size, cell_size))
+            elif (x, y) in path_tiles:
+                pygame.draw.rect(screen, path_color, (x*cell_size, y*cell_size, cell_size, cell_size))
             else:
                 pygame.draw.rect(screen, passage_color, (x*cell_size, y*cell_size, cell_size, cell_size))
 
