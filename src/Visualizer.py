@@ -1,5 +1,7 @@
 import pygame
 from MazeMaker import *
+from tkinter import *
+from tkinter import messagebox
 
 # Initialize Pygame
 pygame.init()
@@ -34,8 +36,9 @@ goal_pos = [len(maze)-2, len(maze)-2]
 # Define the clock to control the frame rate
 clock = pygame.time.Clock()
 
+game_over = False
 # Main game loop
-while True:
+while not game_over:
     # Handle events
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -51,6 +54,10 @@ while True:
                 point_pos[0] -= 1
             elif event.key == pygame.K_RIGHT and maze[point_pos[1]][point_pos[0]+1] == 1:
                 point_pos[0] += 1
+            elif event.key == pygame.K_ESCAPE:
+                game_over = True
+                pygame.quit()
+                quit()
 
     # Clear the screen
     screen.fill((255, 255, 255))
@@ -69,9 +76,18 @@ while True:
     # Draw the goal
     pygame.draw.rect(screen, goal_color, (goal_pos[0]*cell_size, goal_pos[1]*cell_size, cell_size, cell_size))
 
+    if point_pos == goal_pos:
+        # Create the surface to display the message on
+        message_surface = font.render("Congratulations! You scored over 100 points!", True, (255, 255, 255), (0, 0, 0))
+        message_rect = message_surface.get_rect(center=(screen_width/2, screen_height/2))
+
+        # Display the message on the main window
+        screen.blit(message_surface, message_rect)
+        
     # Update the screen
     pygame.display.update()
     
+
 
     # Control the frame rate
     clock.tick(60)
