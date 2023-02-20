@@ -37,6 +37,7 @@ goal_pos = [len(maze)-2, len(maze)-2]
 clock = pygame.time.Clock()
 
 game_over = False
+complete = False
 # Main game loop
 while not game_over:
     # Handle events
@@ -78,12 +79,17 @@ while not game_over:
 
     if point_pos == goal_pos:
         # Create the surface to display the message on
-        message_surface = font.render("Congratulations! You scored over 100 points!", True, (255, 255, 255), (0, 0, 0))
-        message_rect = message_surface.get_rect(center=(screen_width/2, screen_height/2))
+        if complete == False:
+            message_surface = font.render("Completion Time: " + str(pygame.time.get_ticks()/1000), True, (255, 255, 255), (0, 0, 0))
+            message_rect = message_surface.get_rect(center=(screen_width/2, screen_height/2))
 
+        
         # Display the message on the main window
         screen.blit(message_surface, message_rect)
+        complete = True
+
         
+
     # Update the screen
     pygame.display.update()
     
